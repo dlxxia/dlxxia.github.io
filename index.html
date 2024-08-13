@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MozaMatch - Oportunidades de Emprego</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('C:\Users\gouve\OneDrive\Documentos\MozaMatch\Background.png');
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: rgba(0, 64, 128, 0.9);
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        header img {
+            height: 50px;
+            vertical-align: middle;
+        }
+        header h1 {
+            display: inline-block;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+        main {
+            margin: 40px 10%;
+        }
+        .vacancy, .deadline {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .apply-form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        footer {
+            background-color: rgba(0, 64, 128, 0.9);
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+        button, input[type="submit"] {
+            background-color: #004080;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover, input[type="submit"]:hover {
+            background-color: #003060;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="C:\Users\gouve\OneDrive\Documentos\MozaMatch\Logo.png" alt="MozaMatch Logo">
+    <h1>MozaMatch</h1>
+</header>
+
+<main>
+    <section class="deadline">
+        <h2>Prazo para Submissão</h2>
+        <p>Por favor, submeta a sua candidatura até ao dia 17 de Agosto de 2024.</p>
+    </section>
+
+    <section class="vacancy">
+        <h2>Vagas Disponíveis</h2>
+        <form id="applicationForm">
+            <label for="job_select">Selecione uma Vaga:</label><br>
+            <select id="job_select" name="job_position" required>
+                <option value="Contabilista Sénior">Contabilista Sénior</option>
+                <option value="Gestor de Recursos Humanos">Gestor de Recursos Humanos</option>
+                <option value="Técnico de Contas">Técnico de Contas</option>
+                <option value="Técnicos de Recursos Humanos">Técnicos de Recursos Humanos</option>
+                <option value="Assistentes Técnicos">Assistentes Técnicos</option>
+                <option value="Gestores/as de Clientes">Gestores/as de Clientes</option>
+            </select><br><br>
+            <label for="name">Nome Completo:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="cv">Carregar CV:</label><br>
+            <input type="file" id="cv" name="cv" required><br><br>
+            <label for="certificates">Carregar Certificados e Diplomas:</label><br>
+            <input type="file" id="certificates" name="certificates"><br><br>
+            <label for="cover_letter">Carregar Carta de Candidatura:</label><br>
+            <input type="file" id="cover_letter" name="cover_letter"><br><br>
+            <label for="message">Mensagem:</label><br>
+            <textarea id="message" name="message" rows="4"></textarea><br><br>
+            <input type="submit" value="Enviar Candidatura">
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>Conecte-se connosco no <a href="https://m.facebook.com/mozamatch" target="_blank">Facebook</a> | Envie-nos um email para <a href="mailto:mozamatch@gmail.com">mozamatch@gmail.com</a></p>
+</footer>
+
+<script>
+    document.getElementById('applicationForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+
+        try {
+            const response = await fetch('/.netlify/functions/submitApplication', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert('Candidatura submetida com sucesso!');
+            } else {
+                alert(`Erro: ${result.message}`);
+            }
+        } catch (error) {
+            console.error('Erro ao submeter a candidatura:', error);
+            alert('Erro ao submeter a candidatura.');
+        }
+    });
+</script>
+
+</body>
+</html>
